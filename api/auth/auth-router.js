@@ -1,7 +1,9 @@
 const router = require("express").Router();
 const Users = require("../users/users-model");
+const bcrypt = require("bcryptjs");
+const { checkBody, checkExists } = require("../users/users-middleware");
 
-router.post("/register", (req, res) => {
+router.post("/register", checkBody, checkExists, (req, res) => {
   /*
     IMPLEMENT
     You are welcome to build additional middlewares to help with the endpoint's functionality.
@@ -28,7 +30,8 @@ router.post("/register", (req, res) => {
       the response body should include a string exactly as follows: "username taken".
   */
   const { username, password } = req.body;
-  Users.insert({ username, password }).then((user) => {
+  const hash = bcrypt.hashSync(password, 8);
+  Users.insert({ username, password: hash }).then((user) => {
     res.status(201).json(user);
   });
 });
