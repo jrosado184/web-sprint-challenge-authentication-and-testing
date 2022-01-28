@@ -8,6 +8,10 @@ const findById = (id) => {
   return db("users").where("id", id).select("id", "username").first();
 };
 
+const findBy = (filter) => {
+  return db("users").where(filter);
+};
+
 const insert = async (user) => {
   const [id] = await db("users").insert(user);
   return findById(id);
@@ -15,5 +19,6 @@ const insert = async (user) => {
 
 module.exports = {
   findAll,
+  findBy,
   insert,
 };
