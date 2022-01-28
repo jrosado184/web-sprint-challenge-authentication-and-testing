@@ -20,7 +20,7 @@ afterAll(async () => {
 });
 
 describe("POST /login", () => {
-  test("returns a status 200 OK", async () => {
+  test("User can login with correct credentials", async () => {
     const res = await request(server)
       .post("/api/auth/login")
       .send({ username: "laysha", password: "1234" });
