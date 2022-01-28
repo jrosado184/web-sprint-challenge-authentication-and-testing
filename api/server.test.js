@@ -32,4 +32,10 @@ describe("POST /login", () => {
       .send({ username: "layshaaa", password: "1234" });
     expect(res.status).toBe(401);
   });
+  test("respond with message on missing username or password", async () => {
+    const res = await request(server)
+      .post("/api/auth/login")
+      .send({ username: "layshaaa" });
+    expect(res.status).toBe(422);
+  });
 });
