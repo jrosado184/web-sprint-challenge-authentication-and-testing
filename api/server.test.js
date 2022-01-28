@@ -27,6 +27,13 @@ describe("POST /register", () => {
     expect(res.status).toBe(201);
     expect(res.body.username).toBe("mario");
   });
+  test("returns 401 and message if username exists", async () => {
+    const res = await request(server)
+      .post("/api/auth/register")
+      .send({ username: "laysha", password: "1234" });
+    expect(res.status).toBe(401);
+    expect(res.body.message).toMatch(/username taken/);
+  });
 });
 
 describe("POST /login", () => {
