@@ -2,7 +2,6 @@
 const db = require("../data/dbConfig");
 const server = require("./server");
 const request = require("supertest");
-const Users = require("./users/users-model");
 
 test("sanity", () => {
   expect(true).toBe(true);
@@ -82,5 +81,10 @@ describe("GET /jokes", () => {
         joke: "Why didn’t the skeleton cross the road? Because he had no guts.",
       },
     ]);
+  });
+  test("return error message on jokes request if not validated", async () => {
+    const res = await request(server).get("/api/jokes");
+    expect(res.status).toBe(401);
+    expect(res.body.message).toMatch(/token required/);
   });
 });
