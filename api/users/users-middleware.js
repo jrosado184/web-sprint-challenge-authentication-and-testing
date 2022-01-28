@@ -14,7 +14,7 @@ const checkExists = async (req, res, next) => {
   const users = await Users.findAll();
   const exist = users.some((user) => user.username === username);
   if (exist) {
-    res.json({ message: "username taken" });
+    res.status(401).json({ message: "username taken" });
   } else {
     next();
   }

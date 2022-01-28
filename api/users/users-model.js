@@ -5,7 +5,7 @@ const findAll = () => {
 };
 
 const findById = (id) => {
-  return db("users").where("id", id).select("id", "username").first();
+  return db("users").where("id", id).first();
 };
 
 const findBy = (filter) => {
