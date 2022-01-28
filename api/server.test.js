@@ -26,4 +26,10 @@ describe("POST /login", () => {
       .send({ username: "laysha", password: "1234" });
     expect(res.body.message).toMatch(/welcome, laysha/);
   });
+  test("respond with message on invalid credential", async () => {
+    const res = await request(server)
+      .post("/api/auth/login")
+      .send({ username: "layshaaa", password: "1234" });
+    expect(res.status).toBe(401);
+  });
 });
