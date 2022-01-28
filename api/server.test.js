@@ -19,6 +19,16 @@ afterAll(async () => {
   await db.destroy();
 });
 
+describe("POST /register", () => {
+  test("can register a user", async () => {
+    const res = await request(server)
+      .post("/api/auth/register")
+      .send({ username: "mario", password: "1234" });
+    expect(res.status).toBe(201);
+    expect(res.body.username).toBe("mario");
+  });
+});
+
 describe("POST /login", () => {
   test("User can login with correct credentials", async () => {
     const res = await request(server)
@@ -31,11 +41,13 @@ describe("POST /login", () => {
       .post("/api/auth/login")
       .send({ username: "layshaaa", password: "1234" });
     expect(res.status).toBe(401);
+    expect(res.body.message).toMatch(/invalid credentials/);
   });
   test("respond with message on missing username or password", async () => {
     const res = await request(server)
       .post("/api/auth/login")
       .send({ username: "layshaaa" });
     expect(res.status).toBe(422);
+    expect(res.body.message).toMatch(/username and password required/);
   });
 });
